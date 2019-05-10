@@ -28,25 +28,6 @@ Coupled with Rancher it will let you build a distributable, highly available Bui
 - MASTER_PASSVAR = a Jenkins Master user password
 - SLAVE_EXES = Quantity of Executor tasks. (Recommendended <= number of cores)
 
-Example Docker Compose - Node Deployment for already existing Jenkins Master
-```
-version: '2'
-services:
-  Jenkins-Slave-Mono:
-    privileged: true
-    image: 0urob0r0s/jenkins-slave-mono:latest
-    environment:
-      MASTER_URL: http://myjenkins-master.com:8080
-      MASTER_USER: jenkins
-      MASTER_PASSVAR: jenkins
-      SLAVE_EXES: '4'
-    stdin_open: true
-    volumes:
-    - /opt/volumes/jenkins-slave-mono:/workspace
-    - /var/run/docker.sock:/var/run/docker.sock
-    tty: true
-```
-
 Example Docker Compose - Full Stack Jenkins Master + Build Node
 ```
 version: '2'
@@ -74,10 +55,10 @@ services:
     - /opt/volumes/jenkins-master:/var/jenkins_home
     tty: true
 ```  
+
 **Usage - Post-Deployment Steps**
 
 The Swarm Plugin is required in order to allow the automatic provisioning of the Build nodes.
-
 *Perform the following steps on the Jenkins Master:*
 
 1 - Enable JNLP Agent:
