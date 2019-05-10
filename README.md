@@ -96,8 +96,8 @@ The Swarm Plugin is required in order to allow the automatic provisioning of the
 
 	- Manage Jenkins > Manage Plugins >>
 	- Available > Self-Organizing Swarm Plug-in Modules [+]
-  - Available > MSBuild Plugin [+]
- 
+	- Available > MSBuild Plugin [+]
+	
 4 - Configure MSBuild:
 
 	- Manage Jenkins > Global Tool Configuration >>
