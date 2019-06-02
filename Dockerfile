@@ -7,7 +7,6 @@ ARG gid=1000
 ARG JENKINS_AGENT_HOME=/home/${user}
 
 ENV SWARM_CLIENT_VERSION="3.9" \
-    DOCKER_COMPOSE_VERSION="1.19.0" \
     COMMAND_OPTIONS="" \
     USER_NAME_SECRET="" \
     PASSWORD_SECRET="" \
@@ -20,11 +19,13 @@ WORKDIR "${JENKINS_AGENT_HOME}"
 
 # Install Swarm Agent and Misc tools
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y curl wget openssh-client openssl software-properties-common apt-transport-https ca-certificates && \
+    apt-get install --no-install-recommends -y curl wget openssh-client openssl apt-transport-https ca-certificates && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
+    apt-get update && \
+    apt-get install --no-install-recommends -y software-properties-common docker-ce-cli docker-compose && \
     rm -rf /var/lib/apt/lists/* && \
     wget --no-check-certificate -q https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${SWARM_CLIENT_VERSION}/swarm-client-${SWARM_CLIENT_VERSION}.jar -P ${JENKINS_AGENT_HOME} && \
-    curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && \
-    chmod +x /usr/local/bin/docker-compose && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
 
 # Install JDK 8 (latest edition)
