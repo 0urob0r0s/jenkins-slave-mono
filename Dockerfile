@@ -19,11 +19,11 @@ WORKDIR "${JENKINS_AGENT_HOME}"
 
 # Install Swarm Agent and Misc tools
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y curl wget openssh-client openssl apt-transport-https ca-certificates && \
+    apt-get install --no-install-recommends -y curl wget openssh-client openssl apt-transport-https ca-certificates software-properties-common && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
     apt-get update && \
-    apt-get install --no-install-recommends -y software-properties-common docker-ce-cli docker-compose && \
+    apt-get install --no-install-recommends -y docker-ce-cli docker-compose && \
     rm -rf /var/lib/apt/lists/* && \
     wget --no-check-certificate -q https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${SWARM_CLIENT_VERSION}/swarm-client-${SWARM_CLIENT_VERSION}.jar -P ${JENKINS_AGENT_HOME} && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
