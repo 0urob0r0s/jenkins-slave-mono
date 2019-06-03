@@ -17,7 +17,7 @@ RUN groupadd -g ${gid} ${group} \
 
 WORKDIR "${JENKINS_AGENT_HOME}"
 
-# Install Swarm Agent and Misc tools
+# Install Swarm Agent, Docker tools, Rancher CLI and Misc tools
 RUN apt-get update && \
     apt-get install --no-install-recommends -y curl wget openssh-client openssl apt-transport-https ca-certificates software-properties-common && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
@@ -25,6 +25,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install --no-install-recommends -y docker-ce-cli docker-compose && \
     rm -rf /var/lib/apt/lists/* && \
+    curl -SL https://releases.rancher.com/cli/v0.6.10/rancher-linux-amd64-v0.6.10.tar.gz | tar --strip=2 -xzC /usr/bin/ && \
     wget --no-check-certificate -q https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/${SWARM_CLIENT_VERSION}/swarm-client-${SWARM_CLIENT_VERSION}.jar -P ${JENKINS_AGENT_HOME} && \
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
 
